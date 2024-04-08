@@ -822,7 +822,7 @@ async function startTalk(){
         <input  onKeyUp={handleKeyUp}  type="text" id="user-input-field" placeholder="Pregunta cualquier duda"/>
         <div tabIndex="0">
                 {isLoading?<CircularProgress />:
-                  <button style={{marginLeft:-80}}  disabled={!connected} onClick={startTalk} id="talk-button" type="button">Send</button>
+                  <button style={{marginLeft:0}}  disabled={!connected} onClick={startTalk} id="talk-button" type="button">Send</button>
 
                 } 
  </div>
