@@ -826,7 +826,7 @@ paddingLeft:10,
       
         <input style={{flex:1}}   onKeyUp={handleKeyUp}  type="text" id="user-input-field" placeholder="Pregunta cualquier duda"/>
         <div tabIndex="0">
-                {isLoading?<CircularProgress />:
+                {isLoading?<CircularProgress style={{marginLeft:10}}/>:
                   <button style={{marginLeft:10}}  disabled={!connected} onClick={startTalk} id="talk-button" type="button">Send</button>
 
                 } 

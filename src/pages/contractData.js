@@ -22,7 +22,8 @@ const ContractData = () => {
     lastname:"",
     email:"",
     dni:"",
-    province:""
+    province:"",
+    job:""
   });
   const [dateBirthday, setDateBirtday] = useState(null);
 
@@ -51,7 +52,7 @@ const ContractData = () => {
     user.set("address",values.address)
     user.set("community",values.community)
     user.set("job",values.job)
-    user.set("province",values.provincia)
+    user.set("province",values.province)
     user.set("gender",values.gender)
 
     await user.save()
