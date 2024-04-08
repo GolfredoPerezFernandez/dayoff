@@ -19,6 +19,7 @@ const Vocal = dynamic(
     ssr: false,
   }
 );
+import { useMediaQuery } from 'react-responsive'
 
 
 // ... (código anterior)
@@ -96,12 +97,14 @@ const userInformation = {
   syndicate: user.get('syndicate'),
   weeklyHours: user.get('weeklyHours'),
   salary: user.get('salary'),
-  jobinTesting: user.get('jobTest')
+  jobinTesting: user.get('jobTest'),
+  job: user.get('job'),
+
  };
  console.log(JSON.stringify(userInformation))
     let res=await Moralis.Cloud.run(
       "assistanceChat",
-      { history:history, userResponse:"hola te pasare mi informacion personal en un objecto toma lo que necesites  "+JSON.stringify(userInformation)+" :"+userMessage}
+      { history:history, userResponse:"utiliza mi informacion personal para responder  "+JSON.stringify(userInformation)+" :"+userMessage}
     );
     let respuesta=res
     .filter(message => message.role === 'assistant')
@@ -184,6 +187,8 @@ const genders = [
     label: "Portugues",
   },
 ];
+
+const isTabletOrMobile = useMediaQuery({ query: '(max-width: 600px)' })
 const [connected,setConnected]=useState(false)
   useEffect(()=>{
     
@@ -810,19 +815,19 @@ async function startTalk(){
             position:"fixed",
             bottom:15,
             paddingBottom:"safe",
-            width:"80%",
+            width:isTabletOrMobile?"100%":"70%",
             justifyContent:'center',
             alignItems:'center',
-            paddingRight:90,
-
+            paddingRight:10,
+paddingLeft:10,
           }}>
             
                      
       
-        <input  onKeyUp={handleKeyUp}  type="text" id="user-input-field" placeholder="Pregunta cualquier duda"/>
+        <input style={{flex:1}}   onKeyUp={handleKeyUp}  type="text" id="user-input-field" placeholder="Pregunta cualquier duda"/>
         <div tabIndex="0">
                 {isLoading?<CircularProgress />:
-                  <button style={{marginLeft:0}}  disabled={!connected} onClick={startTalk} id="talk-button" type="button">Send</button>
+                  <button style={{marginLeft:10}}  disabled={!connected} onClick={startTalk} id="talk-button" type="button">Send</button>
 
                 } 
  </div>
