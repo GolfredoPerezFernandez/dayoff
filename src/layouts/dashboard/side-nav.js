@@ -121,7 +121,7 @@ async function init(){
                <img
               alt=""
               
-              src={"https://res.cloudinary.com/dug5cohaj/image/upload/v1712292239/mew2whjo7m3oemqpd7za.png"}
+              src={"https://res.cloudinary.com/dug5cohaj/image/upload/v1712557871/IMG_5881_1_gvb2zv.png"}
             />
             </Box>          </Box>
           <Box

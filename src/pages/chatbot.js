@@ -101,7 +101,7 @@ const userInformation = {
  console.log(JSON.stringify(userInformation))
     let res=await Moralis.Cloud.run(
       "assistanceChat",
-      { history:history, userResponse:"hola te pasare mi informacion personal en un objecto toma lo q necesites responde en un maximo 360 caracteres "+JSON.stringify(userInformation)+"responde mi pregunta solamente :"+userMessage}
+      { history:history, userResponse:"hola te pasare mi informacion personal en un objecto toma lo que necesites  "+JSON.stringify(userInformation)+" :"+userMessage}
     );
     let respuesta=res
     .filter(message => message.role === 'assistant')
