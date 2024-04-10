@@ -147,7 +147,7 @@ async function init(){
                 color="neutral.400"
                 variant="body2"
               >
-                CHATBOT IA
+                Asistente Legal Laboral
               </Typography>
             </div>
           

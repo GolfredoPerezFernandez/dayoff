@@ -56,7 +56,7 @@ useEffect(()=>{
     {role: "user", content: ``},
     {
       role: "assistant",
-      content: "Bievenidos al chatbot sobre las leyes del trabajo en españa",
+      content: "Bievenidos al chatbot sobre las leyes del trabajo en España",
     },
   ]);
   
