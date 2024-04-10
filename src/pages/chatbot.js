@@ -818,7 +818,8 @@ const typesValues = [
               </TextField>
                  </div>
                
-                
+                 <div style={{ position: "relative", height: "500px" }}>
+ 
       <MainContainer style={{
             justifyContent:'center',
             alignSelf:'center',
@@ -879,6 +880,7 @@ paddingLeft:10,
         </ChatContainer>
       </MainContainer>
       
+      </div>
     </div>
    
     </div>
