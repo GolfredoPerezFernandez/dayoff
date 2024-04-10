@@ -9,6 +9,7 @@ import { CircularProgress, Avatar,Stack, Typography, TextField } from '@mui/mate
 import user from '@mui/icons-material';
 import { Box } from '@mui/system';
 // pages/index.js
+import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 
 import dynamic from "next/dynamic";
 import DID_API from './api.json' assert { type: 'json' };
