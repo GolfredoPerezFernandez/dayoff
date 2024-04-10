@@ -831,7 +831,7 @@ const typesValues = [
         
           <MessageList style={{ 
             justifyContent:'center',
-            alignItems:'center',flex:1 }}>
+            alignItems:'center',flex:1,marginBottom:20 }}>
             {history.map((message, index) => (
               index != 0?
               <Stack style={{
