@@ -31,7 +31,9 @@ const [newSessionId,setSessionId]=useState("")
 
 const [values, setValues] = useState({
   userResponse: "",
-  lenguage: "",
+  lenguage: "", 
+   expert: "seguridadSocial",
+
 });
 let lenguageSelected="es-ES"
 console.log(values.lenguage)
@@ -101,10 +103,10 @@ const userInformation = {
   job: user.get('job'),
 
  };
- console.log(JSON.stringify(userInformation))
+ console.log("values.expert "+JSON.stringify(values.expert))
     let res=await Moralis.Cloud.run(
       "assistanceChat",
-      { history:history, userResponse:"utiliza mi informacion personal para responder  "+JSON.stringify(userInformation)+" :"+userMessage}
+      { history:history, expert:values.expert,userResponse:"utiliza mi informacion personal para responder  "+JSON.stringify(userInformation)+" :"+userMessage}
     );
     let respuesta=res
     .filter(message => message.role === 'assistant')
@@ -736,6 +738,21 @@ async function startTalk(){
         setLoading(false)
 
 }
+
+const typesValues = [
+  { label: 'Seguridad Social', value: 'seguridadSocial' },
+  { label: 'Trabajo Autonomo', value: 'trabajoAutonomo' },
+  { label: 'Convenios', value: 'convenios' },
+  { label: 'Jubilacion', value: 'jubilacion' },
+  { label: 'Representacion de Trabajadores', value: 'representacionTrabajadores' },
+
+  { label: 'Salarios', value: 'salarios' },
+  { label: 'Derechos y Deberes de los Trabajadores', value: 'deberesDerechos' },
+  { label: 'Constitucion Española', value: 'constitucionEspanola' },
+  { label: 'Suspension De Contratos Y Despidos Colectivos', value: 'suspensionesDespidos' },
+  { label: 'Derecho Tributario', value: 'derechoTributario' },
+  
+];
   async function handleKeyUp(event) {
     if (event.key === 'Enter') {
       console.log("entro enter")
@@ -773,6 +790,32 @@ async function startTalk(){
             justifyContent:'center',
             alignItems:'center',margin:10}}>
                    <video  id="talk-video" alignSelf='center'  width="200" height="200" autoPlay></video>
+                   <TextField
+                fullWidth
+                label="Experto En"
+                name="expert"
+
+                onChange={handleChange}
+                required
+                select
+                style={{
+                  paddingTop:6,
+                  width:240,
+                  marginLeft:35,
+                  marginBottom:10
+                }}
+                SelectProps={{ native: true }}
+                value={values.expert}
+              >
+                {typesValues.map((option) => (
+                  <option
+                    key={option.value}
+                    value={option.value}
+                  >
+                    {option.label}
+                  </option>
+                ))}
+              </TextField>
                  </div>
                
                 
