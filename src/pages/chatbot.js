@@ -825,9 +825,10 @@ const typesValues = [
             justifyContent:'center',
             alignSelf:'center',
             position:'fixed',
+            marginBottom:"20px",
             alignItems:'center', marginTop: 3 }}>
         
-       <ChatContainer style={{marginBottom:"8%"}}>
+       <ChatContainer style={{}}>
         
           <MessageList style={{ 
             justifyContent:'center',
