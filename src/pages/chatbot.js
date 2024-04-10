@@ -826,16 +826,12 @@ const typesValues = [
             position:'fixed',
             width:isTabletOrMobile?"100%":"80%",
 
-            marginBottom:"20px",
-            paddingBottom:'20px',
+            paddingBottom:'450px',
             alignItems:'center', marginTop: 3 }}>
         
        <ChatContainer style={{}}>
         
           <MessageList style={{ 
-            
-            marginBottom:"20px",
-            paddingBottom:'20px',
             justifyContent:'center',
             alignItems:'center',flex:0.9, }}>
             {history.map((message, index) => (
