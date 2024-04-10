@@ -818,69 +818,70 @@ const typesValues = [
               </TextField>
                  </div>
                
-                 <div style={{ position: "relative", height: "500px" }}>
- 
-      <MainContainer style={{
-            justifyContent:'center',
-            alignSelf:'center',
-            alignItems:'center', marginTop: 20 }}>
-        
-       <ChatContainer>
-        
-          <MessageList style={{ 
-            justifyContent:'center',
-            alignItems:'center',marginBottom:80}}>
-            {history.map((message, index) => (
-              index != 0?
-              <Stack style={{
-                justifyContent:'center',
-                alignItems:'center', marginTop:10,flexDirection:"row"}} key={index}>
-               
-
-                <Message
-                  key={index}
-                  name="userResponse"
-                  style={{marginRight:20,width:"80%"}}
-                  model={{
-                    sentTime: "just now",
-                    message: message.role + ": " + message.content,
-                    sender: message.role,
-                  }}
-                />
-
+                 <div style={{ position: "relative", height: "100%", overflow: "hidden" }}>
+  <MainContainer style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        alignItems: 'center',
+        height: '100%',
+        marginTop: 20 }}>
     
-              </Stack>:null
-            ))}
-          </MessageList>
-         {iniciando?null: <div as={MessageInput} class="fixed bottom-0  pb-safe w-full " style={{
-            display: "flex",
-            flexDirection: "row",
-            flex: 1,
-            position:"fixed",
-            bottom:15,
-            paddingBottom:"safe",
-            width:isTabletOrMobile?"100%":"70%",
-            justifyContent:'center',
-            alignItems:'center',
-            paddingRight:10,
-paddingLeft:10,
-          }}>
+    <ChatContainer style={{ width: '100%', flex: 1 }}>
+      
+      <MessageList style={{ 
+        overflowY: 'scroll',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 80,
+        flex: 1 }}>
+        {history.map((message, index) => (
+          index !== 0 ?
+          <Stack key={index} style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 10,
+            flexDirection: "row"}}>
             
-                     
-      
-        <input style={{flex:1}}   onKeyUp={handleKeyUp}  type="text" id="user-input-field" placeholder="Pregunta cualquier duda"/>
-        <div tabIndex="0">
-                {isLoading?<CircularProgress style={{marginLeft:10}}/>:
-                  <button style={{marginLeft:10}}  disabled={!connected} onClick={startTalk} id="talk-button" type="button">Send</button>
+            <Message
+              key={index}
+              name="userResponse"
+              style={{ marginRight: 20, width: "80%" }}
+              model={{
+                sentTime: "just now",
+                message: message.role + ": " + message.content,
+                sender: message.role,
+              }}
+            />
 
-                } 
- </div>
-          </div>
-         }
-        </ChatContainer>
-      </MainContainer>
-      
+          </Stack> : null
+        ))}
+      </MessageList>
+      {iniciando ? null : 
+      <div as={MessageInput} className="fixed bottom-0 pb-safe w-full" style={{
+        display: "flex",
+        flexDirection: "row",
+        position: "fixed",
+        bottom: 15,
+        width: "100%",
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingRight: 10,
+        paddingLeft: 10,
+      }}>
+        
+        <input style={{ flex: 1 }} onKeyUp={handleKeyUp} type="text" id="user-input-field" placeholder="Pregunta cualquier duda" />
+        <div tabIndex="0">
+          {isLoading ? <CircularProgress style={{ marginLeft: 10 }} /> :
+            <button style={{ marginLeft: 10 }} disabled={!connected} onClick={startTalk} id="talk-button" type="button">Send</button>
+          } 
+        </div>
       </div>
+      }
+    </ChatContainer>
+  </MainContainer>
+</div>
     </div>
    
     </div>
