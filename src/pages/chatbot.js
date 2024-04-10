@@ -820,25 +820,28 @@ const typesValues = [
               </TextField>
                  </div>
                
- 
                  <MainContainer style={{
             justifyContent:'center',
             alignSelf:'center',
             position:'fixed',
             width:isTabletOrMobile?"100%":"80%",
-            alignItems:'center', marginTop: 3,bottom:65 }}>
+
+            marginBottom:"20px",
+            paddingBottom:'20px',
+            alignItems:'center', marginTop: 3 }}>
         
-       <ChatContainer  >
+       <ChatContainer style={{}}>
         
           <MessageList style={{ 
-            justifyContent:'center',
             
-            alignItems:'center',flex:1, }}>
+            marginBottom:"20px",
+            paddingBottom:'20px',
+            justifyContent:'center',
+            alignItems:'center',flex:0.9, }}>
             {history.map((message, index) => (
               index != 0?
               <Stack style={{
                 justifyContent:'center',
-                
                 alignItems:'center', marginTop:10,flexDirection:"row"}} key={index}>
                
 
