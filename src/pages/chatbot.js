@@ -825,7 +825,7 @@ const typesValues = [
             justifyContent:'center',
             alignSelf:'center',
             position:'fixed',
-            alignItems:'center', marginTop: 20 }}>
+            alignItems:'center', marginTop: 3 }}>
         
        <ChatContainer>
         
