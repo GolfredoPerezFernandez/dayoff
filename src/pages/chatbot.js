@@ -827,11 +827,11 @@ const typesValues = [
             position:'fixed',
             alignItems:'center', marginTop: 3 }}>
         
-       <ChatContainer>
+       <ChatContainer style={{marginBottom:"8%"}}>
         
           <MessageList style={{ 
             justifyContent:'center',
-            alignItems:'center',flex:1,paddingBottom:"8%" }}>
+            alignItems:'center',flex:1, }}>
             {history.map((message, index) => (
               index != 0?
               <Stack style={{
