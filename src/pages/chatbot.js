@@ -832,7 +832,7 @@ const typesValues = [
     <MessageList style={{ 
             justifyContent:'center',
             alignItems:'center',height:"40%" }}>
-        {history.map((message, index) => (
+        {history.map(async (message, index) => (
           index !== 0 ?
           <Stack key={index} style={{
             justifyContent: 'center',
