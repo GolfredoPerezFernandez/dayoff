@@ -9,7 +9,6 @@ import { CircularProgress, Avatar,Stack, Typography, TextField } from '@mui/mate
 import user from '@mui/icons-material';
 import { Box } from '@mui/system';
 // pages/index.js
-import useScrollTrigger from '@mui/material/useScrollTrigger';
 
 import dynamic from "next/dynamic";
 import DID_API from './api.json' assert { type: 'json' };
@@ -826,7 +825,7 @@ const typesValues = [
           <ChatContainer style={{ width: '100%', maxHeight: '500px', overflowY: 'auto' }}>
             <MessageList style={{ justifyContent: 'center', alignItems: 'center' }}>
 
-        {history.map(async (message, index) => (
+        {history.map( (message, index) => (
           index !== 0 ?
           <Stack key={index} style={{
             justifyContent: 'center',
