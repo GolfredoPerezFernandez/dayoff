@@ -5,10 +5,12 @@ import { MainContainer, ChatContainer, MessageList, Message, MessageInput } from
 import { useMoralis } from 'react-moralis';
 import { AudioRecorder, useAudioRecorder, } from 'react-audio-voice-recorder';
 import { async } from 'react-cloudinary-upload-widget';
-import { CircularProgress, Avatar,Stack, ScrollView,Typography, TextField } from '@mui/material';
+import { CircularProgress, Avatar,Stack, Typography, TextField } from '@mui/material';
 import user from '@mui/icons-material';
 import { Box } from '@mui/system';
 // pages/index.js
+import useScrollTrigger from '@mui/material/useScrollTrigger';
+
 import dynamic from "next/dynamic";
 import DID_API from './api.json' assert { type: 'json' };
 import { SayButton } from 'react-say';
@@ -820,18 +822,10 @@ const typesValues = [
                
                  <div style={{ position: "relative", height: "100%" }}>
  
-                 <MainContainer style={{
-            justifyContent:'center',
-            alignSelf:'center',
-            alignItems:'center', marginTop: 20 }}>
-    
-    <ChatContainer style={{ width: '100%', flex: 1 }}>
-      <ScrollView>
-      
-        
-    <MessageList style={{ 
-            justifyContent:'center',
-            alignItems:'center',height:"40%" }}>
+                 <MainContainer style={{ justifyContent: 'center', alignSelf: 'center', alignItems: 'center', height: '100%' }}>
+          <ChatContainer style={{ width: '100%', maxHeight: '500px', overflowY: 'auto' }}>
+            <MessageList style={{ justifyContent: 'center', alignItems: 'center' }}>
+
         {history.map(async (message, index) => (
           index !== 0 ?
           <Stack key={index} style={{
@@ -853,7 +847,7 @@ const typesValues = [
 
           </Stack> : null
         ))}
-      </MessageList></ScrollView>
+      </MessageList>
       {iniciando ? null : 
       <div as={MessageInput} className="fixed bottom-0 pb-safe w-full" style={{
         display: "flex",
