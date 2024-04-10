@@ -819,34 +819,39 @@ const typesValues = [
               </TextField>
                  </div>
                
-                 <div style={{ position: "relative", height: "100%" }}>
  
-                 <MainContainer style={{ justifyContent: 'center', alignSelf: 'center', alignItems: 'center', height: '100%' }}>
-          <ChatContainer style={{ width: '100%', maxHeight: '500px', overflowY: 'auto' }}>
-            <MessageList style={{ justifyContent: 'center', alignItems: 'center' }}>
+                 <MainContainer style={{
+            justifyContent:'center',
+            alignSelf:'center',
+            alignItems:'center', marginTop: 20 }}>
+        
+       <ChatContainer>
+        
+          <MessageList style={{ 
+            justifyContent:'center',
+            alignItems:'center',height:"40%" }}>
+            {history.map((message, index) => (
+              index != 0?
+              <Stack style={{
+                justifyContent:'center',
+                alignItems:'center', marginTop:10,flexDirection:"row"}} key={index}>
+               
 
-        {history.map( (message, index) => (
-          index !== 0 ?
-          <Stack key={index} style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginTop: 10,
-            flexDirection: "row"}}>
-            
-            <Message
-              key={index}
-              name="userResponse"
-              style={{ marginRight: 20, width: "80%" }}
-              model={{
-                sentTime: "just now",
-                message: message.role + ": " + message.content,
-                sender: message.role,
-              }}
-            />
+                <Message
+                  key={index}
+                  name="userResponse"
+                  style={{marginRight:20}}
+                  model={{
+                    sentTime: "just now",
+                    message: message.role + ": " + message.content,
+                    sender: message.role,
+                  }}
+                />
 
-          </Stack> : null
-        ))}
-      </MessageList>
+    
+              </Stack>:null
+            ))}
+          </MessageList>
       {iniciando ? null : 
       <div as={MessageInput} className="fixed bottom-0 pb-safe w-full" style={{
         display: "flex",
@@ -871,7 +876,6 @@ const typesValues = [
     </ChatContainer>
   </MainContainer>
 </div>
-    </div>
    
     </div>
   );
