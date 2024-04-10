@@ -859,7 +859,7 @@ const typesValues = [
         flexDirection: "row",
         position: "fixed",
         bottom: 15,
-        width: "100%",
+        width: "75%",
         justifyContent: 'center',
         alignItems: 'center',
         paddingRight: 10,
