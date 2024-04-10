@@ -5,7 +5,7 @@ import { MainContainer, ChatContainer, MessageList, Message, MessageInput } from
 import { useMoralis } from 'react-moralis';
 import { AudioRecorder, useAudioRecorder, } from 'react-audio-voice-recorder';
 import { async } from 'react-cloudinary-upload-widget';
-import { CircularProgress, Avatar,Stack, Typography, TextField } from '@mui/material';
+import { CircularProgress, Avatar,Stack, ScrollView,Typography, TextField } from '@mui/material';
 import user from '@mui/icons-material';
 import { Box } from '@mui/system';
 // pages/index.js
@@ -826,7 +826,7 @@ const typesValues = [
             alignItems:'center', marginTop: 20 }}>
     
     <ChatContainer style={{ width: '100%', flex: 1 }}>
-      
+      <ScrollView>
       
         
     <MessageList style={{ 
@@ -853,7 +853,7 @@ const typesValues = [
 
           </Stack> : null
         ))}
-      </MessageList>
+      </MessageList></ScrollView>
       {iniciando ? null : 
       <div as={MessageInput} className="fixed bottom-0 pb-safe w-full" style={{
         display: "flex",
