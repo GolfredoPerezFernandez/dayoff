@@ -22,7 +22,7 @@ export function Sales({ chartSeries, sx }) {
             Sync
           </Button>
         }
-        title="Sales"
+        title="Usuarios Activos"
       />
       <CardContent>
         <Chart height={350} options={chartOptions} series={chartSeries} type="bar" width="100%" />
