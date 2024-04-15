@@ -12,6 +12,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+
 const ContractDetails = () => {
   const { Moralis } = useMoralis();
 
@@ -72,11 +73,49 @@ const ContractDetails = () => {
     { label: 'Formación y Aprendizaje', value: 'Formación' },
     { label: 'Prácticas', value: 'Prácticas' },
   ];
+  const jobCategories = [
+    { label: 'Ingenieros y Licenciados', value: 'Personal de alta dirección no incluido en el artículo 1.3.c) del Estatuto de los Trabajadores' },
+    { label: 'Ingenieros Técnicos, Peritos y Ayudantes Titulados', value: 'Ingenieros Técnicos, Peritos y Ayudantes Titulados' },
+    { label: 'Jefes Administrativos y de Taller', value: 'Jefes Administrativos y de Taller' },
+    { label: 'Ayudantes no Titulados', value: 'Ayudantes no Titulados' },
+    { label: 'Oficiales Administrativos', value: 'Oficiales Administrativos' },
+    { label: 'Subalternos', value: 'Subalternos' },
+    { label: 'Auxiliares Administrativos', value: 'Auxiliares Administrativos' },
+    { label: 'Oficiales de primera y segunda', value: 'Oficiales de primera y segunda' },
+    { label: 'Oficiales de tercera y Especialistas', value: 'Oficiales de tercera y Especialistas' },
+    { label: 'Peones', value: 'Peones' },
+    { label: 'Trabajadores menores de dieciocho años', value: 'cualquiera que sea su categoría profesional' }
+  ];
   const typesValues = [
     { label: 'si', value: 'si' },    
     { label: 'no', value: 'no' },
   ];
   
+  const sectorsArray = [
+    { label: 'Administración y gestión', value: 'Oficinas y despachos' },
+    { label: 'Agricultura y ganadería', value: 'Agricultura y ganadería' },
+    { label: 'Industria alimentaria', value: 'Industria alimentaria' },
+    { label: 'Grandes almacenes', value: 'Grandes almacenes' },
+    { label: 'Comercio', value: 'Comercio' },
+    { label: 'Construcción e industrias extractivas', value: 'Construcción e industrias extractivas' },
+    { label: 'Actividades físico-deportivas', value: 'Actividades físico-deportivas' },
+    { label: 'Educación', value: 'Educación' },
+    { label: 'Energía y agua', value: 'Energía y agua' },
+    { label: 'Finanzas y seguro', value: 'Finanzas y seguro' },
+    { label: 'Hostelería y turismo', value: 'Hostelería y turismo' },
+    { label: 'Información, comunicación y artes gráficas', value: 'Información, comunicación y artes gráficas' },
+    { label: 'Servicios medioambientales', value: 'Servicios medioambientales' },
+    { label: 'Metal', value: 'Metal' },
+    { label: 'Pesca y acuicultura', value: 'Pesca y acuicultura' },
+    { label: 'Industria química y vidrio', value: 'Industria química y vidrio' },
+    { label: 'Sanidad', value: 'Sanidad' },
+    { label: 'Otros servicios', value: 'Otros servicios' },
+    { label: 'Servicios a las empresas', value: 'Servicios a las empresas' },
+    { label: 'Telecomunicaciones', value: 'Telecomunicaciones' },
+    { label: 'Textil confección y piel', value: 'Textil confección y piel' },
+    { label: 'Transporte y logística', value: 'Transporte y logística' },
+    { label: 'Economía social', value: 'Economía social' }
+  ];
   const typesValues3 = [
     { label: 'Completa', value: 'completa' },    
     { label: 'Media Jornada', value: 'media' },
@@ -301,7 +340,6 @@ const ContractDetails = () => {
                   style={{
                     marginTop:10,
                     marginBottom:10,
-                    marginLeft:20,marginRight:20,
                   
                   }}
                   value={values.weeklyHours}
@@ -319,7 +357,6 @@ const ContractDetails = () => {
                   style={{
                     marginTop:10,
                     marginBottom:10,
-                    marginLeft:20,marginRight:20,
                   
                   }}
                   value={values.salary}
@@ -336,45 +373,55 @@ const ContractDetails = () => {
                   style={{
                     marginTop:10,
                     marginBottom:10,
-                    marginLeft:20,marginRight:20,
                   
                   }}
                   value={values.extraPayments}
-                />
-                    <TextField
-                  fullWidth
-                  label="Sector/Sindicato"
-                  name="syndicate"
-                  multiline={true}
-                  onChange={handleChange}
-                  required
-                  rows={1}
-
-                  style={{
-                    marginTop:10,
-                    marginBottom:10,
-                    marginLeft:20,marginRight:20,
-                  
-                  }}
-                  value={values.syndicate}
-                />
-                    <TextField
-                  fullWidth
-                  label="Grupo de Cotización"
-                  name="cotization"
-                  multiline={true}
-                  onChange={handleChange}
-                  required
-                  rows={1}
-
-                  style={{
-                    marginTop:10,
-                    marginBottom:10,
-                    marginLeft:20,marginRight:20,
-                  
-                  }}
-                  value={values.cotization}
-                />
+                />  <TextField
+                fullWidth
+                label="Sector / Sindicato"
+                name="syndicate"
+                onChange={handleChange}
+                required
+                select
+                style={{
+                  paddingTop:6,
+                  marginBottom:10
+                }}
+                SelectProps={{ native: true }}
+                value={values.syndicate}
+              >
+                {sectorsArray.map((option) => (
+                  <option
+                    key={option.value}
+                    value={option.value}
+                  >
+                    {option.label}
+                  </option>
+                ))}
+              </TextField>
+              <TextField
+                fullWidth
+                label="Grupo de cotizacion"
+                name="cotization"
+                onChange={handleChange}
+                required
+                select
+                style={{
+                  paddingTop:6,
+                  marginBottom:10
+                }}
+                SelectProps={{ native: true }}
+                value={values.cotization}
+              >
+                {jobCategories.map((option) => (
+                  <option
+                    key={option.value}
+                    value={option.value}
+                  >
+                    {option.label}
+                  </option>
+                ))}
+              </TextField>
               </div>
        </Stack>
     

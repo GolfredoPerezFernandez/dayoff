@@ -100,7 +100,7 @@ const userInformation = {
   cotization:  user.get('cotization'),
   syndicate: user.get('syndicate'),
   weeklyHours: user.get('weeklyHours'),
-  salary: user.get('salary'),
+   ary: user.get('salary'),
   jobinTesting: user.get('jobTest'),
   job: user.get('job'),
 

@@ -97,7 +97,15 @@ export const itemsAdminPro = [
         <UserPlusIcon />
       </SvgIcon>
     )
-  }
+  },{
+    title: 'Calendario',
+    path: '/calendar',
+    icon: (
+      <SvgIcon fontSize="small">
+        <UserPlusIcon />
+      </SvgIcon>
+    )
+  }, 
 ]
 export const itemsAdmin = [  
   {

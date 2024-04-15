@@ -97,6 +97,29 @@ console.log()
   }
 init()
   },[])
+
+  const typesValues2 = [
+    { label: 'Andalucía', value: 'Andalucía' },
+    { label: 'Aragón', value: 'Aragón' },
+    { label: 'Principado de Asturias', value: 'Principado de Asturias' },
+    { label: 'Islas Baleares', value: 'Islas Baleares' },
+    { label: 'Canarias', value: 'Canarias' },
+    { label: 'Cantabria', value: 'Cantabria' },
+    { label: 'Castilla y León', value: 'Castilla y León' },
+    { label: 'Castilla-La Mancha', value: 'Castilla-La Mancha' },
+    { label: 'Cataluña', value: 'Cataluña' },
+    { label: 'Extremadura', value: 'Extremadura' },
+    { label: 'Galicia', value: 'Galicia' },
+    { label: 'Comunidad de Madrid', value: 'Comunidad de Madrid' },
+    { label: 'Región de Murcia', value: 'Región de Murcia' },
+    { label: 'Comunidad Foral de Navarra', value: 'Comunidad Foral de Navarra' },
+    { label: 'País Vasco', value: 'País Vasco' },
+    { label: 'La Rioja', value: 'La Rioja' },
+    { label: 'Comunidad Valenciana', value: 'Comunidad Valenciana' },
+    { label: 'Ciudad Autónoma de Ceuta', value: 'Ciudad Autónoma de Ceuta' },
+    { label: 'Ciudad Autónoma de Melilla', value: 'Ciudad Autónoma de Melilla' }
+  ];
+
   const typesValues = [
     { label: 'Masculino', value: 'masculino' },    
     { label: 'Femenino', value: 'femenino' },
@@ -224,24 +247,31 @@ init()
                   value={values.job}
                 />
                       
-<TextField
-                  fullWidth
-                  label="Comunidad autonoma "
-                  name="community"
-                  multiline={true}
-                  onChange={handleChange}
-                  required
-                  rows={1}
-
-                  style={{
-                    marginTop:10,
-                    marginBottom:10,
-                  
-                  }}
-                  value={values.community}
-                />
              
-           
+             <TextField
+                fullWidth
+                label="Comunidad autonoma"
+                name="community"
+                onChange={handleChange}
+                required
+                select
+                style={{
+                  paddingTop:6,
+                  marginBottom:10
+                }}
+                SelectProps={{ native: true }}
+                value={values.community}
+              >
+                {typesValues2.map((option) => (
+                  <option
+                    key={option.value}
+                    value={option.value}
+                  >
+                    {option.label}
+                  </option>
+                ))}
+              </TextField>
+            
              <TextField
                   fullWidth
                   label="Provincia donde trabaja"
