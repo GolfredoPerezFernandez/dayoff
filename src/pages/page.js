@@ -2,16 +2,18 @@ import * as React from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import dayjs from 'dayjs';
 
-import { config } from './config';
 import { Budget } from '../layouts/dashboard/overview/budget';
 import { TotalCustomers } from '../layouts/dashboard/overview/total-customers';
-import { TasksProgress } from '../layouts/dashboard/overview/tasks-progress';
 import { TotalProfit } from '../layouts/dashboard/overview/total-profit';
 import { Sales } from '../layouts/dashboard/overview/sales';
 import { Traffic } from '../layouts/dashboard/overview/traffic';
-import { LatestProducts } from '../layouts/dashboard/overview/latest-products';
 import { LatestOrders } from '../layouts/dashboard/overview/latest-orders';
 import { Layout as DashboardLayout } from '../layouts/dashboard/layout';
+
+
+ const config = {
+  site: { name: 'Devias Kit', description: '', themeColor: '#090a0b',  },
+};
 
 export const metadata = { title: `Overview | Dashboard | ${config.site.name}` } 
 
