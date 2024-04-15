@@ -260,26 +260,22 @@ events={myEvents}
 ref={calendarRef}
 editable={true}
 view="week"
+disableViewNavigator={true}
 translations={{
-  navigation: {
-  month: "Mes",
-  week: "Semana",
-  day: "Dia",
-  today: "Hoy"
-  },
-  form: {
-  addTitle: "Haz una reservacion",
-  editTitle: "Edit Event",
-  confirm: "Confirm",
-  delete: "Delete",
-  cancel: "Cancel"
+  
+ form: {
+    addTitle: "Haz una reservacion",
+    editTitle: "Edit Event",
+    confirm: "Confirm",
+    delete: "Delete",
+    cancel: "Cancel"
   },
   event: {
-  title: "Title",
-  start: "Start",
-  end: "End",
-  allDay: "All Day"
- },
+    title: "Title",
+    start: "Start",
+    end: "End",
+    allDay: "All Day"
+  },
   validation: {
   required: "Required",
   invalidEmail: "Invalid Email",
