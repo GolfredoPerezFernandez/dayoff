@@ -105,6 +105,14 @@ export const itemsAdminPro = [
         <UserPlusIcon />
       </SvgIcon>
     )
+  }, {
+    title: 'Dashboard',
+    path: '/page',
+    icon: (
+      <SvgIcon fontSize="small">
+        <UserPlusIcon />
+      </SvgIcon>
+    )
   }, 
 ]
 export const itemsAdmin = [  
