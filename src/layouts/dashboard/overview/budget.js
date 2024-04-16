@@ -5,7 +5,6 @@ import CardContent from '@mui/material/CardContent';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 export function Budget({ diff, trend, sx, value }){
-  const trendColor = trend === 'up' ? 'var(--mui-palette-success-main)' : 'var(--mui-palette-error-main)';
 
   return (
     <Card sx={sx}>
@@ -14,7 +13,7 @@ export function Budget({ diff, trend, sx, value }){
           <Stack direction="row" sx={{ alignItems: 'flex-start', justifyContent: 'space-between' }} spacing={3}>
             <Stack spacing={1}>
               <Typography color="text.secondary" variant="overline">
-                Subscriptores
+                Usuarios Pagando
               </Typography>
               <Typography variant="h4">{value}</Typography>
             </Stack>

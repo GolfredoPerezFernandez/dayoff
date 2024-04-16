@@ -14,7 +14,7 @@ export function TotalCustomers({ diff, trend, sx, value }) {
           <Stack direction="row" sx={{ alignItems: 'flex-start', justifyContent: 'space-between' }} spacing={3}>
             <Stack spacing={1}>
               <Typography color="text.secondary" variant="overline">
-                Usuarios Activos
+                Usuarios 
               </Typography>
               <Typography variant="h4">{value}</Typography>
             </Stack>

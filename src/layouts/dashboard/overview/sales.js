@@ -17,11 +17,7 @@ export function Sales({ chartSeries, sx }) {
   return (
     <Card sx={sx}>
       <CardHeader
-        action={
-          <Button color="inherit" size="small" >
-            Sync
-          </Button>
-        }
+        
         title="Usuarios Activos"
       />
       <CardContent>
