@@ -127,6 +127,18 @@ init()
 
 
   ];
+  
+  const typesValues3 = [
+    { label: 'Conductor de mercancías por carretera', value: 'Conductor de mercancías por carretera' },
+    { label: '⁠peletero', value: '⁠peletero' },
+    { label: '⁠constructor', value: '⁠constructor' },
+    { label: '⁠Sanitario', value: '⁠conductor de ambulancias' },
+    { label: '⁠piloto', value: '⁠piloto' },
+    { label: '⁠Futbolistas', value: '⁠Futbolistas' },
+    { label: '⁠Mecanico', value: '⁠Mecanico' },
+    { label: '⁠hostelero', value: '⁠hostelero' },
+    { label: '⁠camarero', value: '⁠camarero' },
+    ];
 
   const [success,setSuccess]=useState(false)
   return (<>                   
@@ -230,23 +242,29 @@ init()
                 ))}
               </TextField>
              
-<TextField
-                  fullWidth
-                  label="Profesion "
-                  name="job"
-                  multiline={true}
-                  onChange={handleChange}
-                  required
-                  rows={1}
-
-                  style={{
-                    marginTop:10,
-                    marginBottom:10,
-                  
-                  }}
-                  value={values.job}
-                />
-                      
+                     <TextField
+                fullWidth
+                label="Profesion"
+                name="job"
+                onChange={handleChange}
+                required
+                select
+                style={{
+                  paddingTop:6,
+                  marginBottom:10
+                }}
+                SelectProps={{ native: true }}
+                value={values.job}
+              >
+                {typesValues3.map((option) => (
+                  <option
+                    key={option.value}
+                    value={option.value}
+                  >
+                    {option.label}
+                  </option>
+                ))}
+              </TextField>    
              
              <TextField
                 fullWidth

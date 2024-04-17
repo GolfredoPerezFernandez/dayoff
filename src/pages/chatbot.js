@@ -892,4 +892,3 @@ Chatbot.getLayout = (page) => (
 );
 
 export default Chatbot;
-

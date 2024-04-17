@@ -24,6 +24,7 @@ const ContractDetails = () => {
     contractType:"",
     jornada:"",
     salary:"",
+    pagasextras:"",
     jobTest:false,
     cotization:"",
     syndicate:""
@@ -55,6 +56,7 @@ const ContractDetails = () => {
     user.set("salary",values.salary)
     user.set("jobTest",values.jobTest)
 
+    user.set("pagasextras",values.pagasextras)
     
     user.set("cotization",values.cotization)
     user.set("syndicate",values.syndicate)
@@ -89,6 +91,11 @@ const ContractDetails = () => {
   const typesValues = [
     { label: 'si', value: 'si' },    
     { label: 'no', value: 'no' },
+  ];
+  
+  const sectorsArray2 = [
+    { label: '12 pagas', value: '12 pagas' },    
+    { label: '14 pagas', value: '14 pagas' },
   ];
   
   const sectorsArray = [
@@ -175,6 +182,11 @@ const ContractDetails = () => {
          ...prevState,
          ["jobDescription"]: user.get("jobDescription")
        })); 
+
+       setValues((prevState) => ({
+        ...prevState,
+        ["pagasextra"]: user.get("pagasextra")
+      })); 
 
 
    }
@@ -376,7 +388,31 @@ const ContractDetails = () => {
                   
                   }}
                   value={values.extraPayments}
-                />  <TextField
+                /> 
+                 <TextField
+                fullWidth
+                label="pagas extras"
+                name="pagasextras"
+                onChange={handleChange}
+                required
+                select
+                style={{
+                  paddingTop:6,
+                  marginBottom:10
+                }}
+                SelectProps={{ native: true }}
+                value={values.pagasextras}
+              >
+                {sectorsArray2.map((option) => (
+                  <option
+                    key={option.value}
+                    value={option.value}
+                  >
+                    {option.label}
+                  </option>
+                ))}
+              </TextField>
+                 <TextField
                 fullWidth
                 label="Sector / Sindicato"
                 name="syndicate"
