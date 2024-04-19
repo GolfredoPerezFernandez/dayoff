@@ -10,6 +10,7 @@ import user from '@mui/icons-material';
 import { Box } from '@mui/system';
 // pages/index.js
 import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
+import OpenAI from 'openai';
 
 import dynamic from "next/dynamic";
 import DID_API from './api.json' assert { type: 'json' };
@@ -28,6 +29,7 @@ import { useMediaQuery } from 'react-responsive'
 const Chatbot = () => {
 
   const { Moralis } = useMoralis();
+
 const [newstreamID,setStreamingID]=useState("")
 const [newSessionId,setSessionId]=useState("")
 
@@ -77,7 +79,7 @@ useEffect(()=>{
       };
     });
   };;
-
+const [textIA,setTextIA]=useState("Haz cualquier consulta que quieras")
   // Load the OpenAI API from file new 10/23 
   // OpenAI API endpoint set up new 10/23 
   async function fetchOpenAIResponse(userMessage) {
@@ -106,18 +108,57 @@ const userInformation = {
 
  };
  console.log("values.expert "+JSON.stringify(values.expert))
-    let res=await Moralis.Cloud.run(
-      "assistanceChat",
+/*     let res=await Moralis.Cloud.run(
+      "assistanceChatStream",
       { history:history, expert:values.expert,userResponse:"utiliza mi informacion personal para responder  "+JSON.stringify(userInformation)+" :"+userMessage}
     );
     let respuesta=res
     .filter(message => message.role === 'assistant')
     .map(message => message.content[0].text.value)
-    .join('\n')
+    .join('\n') */
+    const openai = new OpenAI({ apiKey: process.env.NEXT_PUBLIC_CHATGPT,dangerouslyAllowBrowser: true  });
 
-  console.log(JSON.stringify( "chgat"+JSON.stringify(res.content))) 
+    const assistantIds= {
+      "seguridadSocial": "asst_TQVFirGoqMQIvaAjHgZDqDPK",
+      "trabajoAutonomo": "asst_APiNNWRn8V9Rl6GS4UJCujna",
+      "convenios": "asst_EM9Cc720BWO7jAXCuwUqLC7X",
+      "jubilacion": "asst_L20k2Jv4k6OEtHW3n5EyckRb",
+      "salarios": "asst_chEufrNqQdRMxXaZteXTuzb6",
+      "deberesDerechos": "asst_Wr2AjzojUjhRRSKHgcvV5q4i",
+      "constitucionEspanola": "asst_2sWQtH5LsP0pNloixbWIxxRA",
+      "derechoTributario": "asst_kLPnMxHhKxYkh2zAGuly10GL",
+      "suspensionesDespidos": "asst_UVEVnc4duCVpoGq0pp3V2kG7",
+      "representacionTrabajadores": "asst_8pQq8XTbKv7LURqXqmvCFEDB"
+    };
+  
+    const asistenteID = assistantIds[values.expert] || assistantIds["seguridadSocial"];
+    const thread = await openai.beta.threads.create();
+    await openai.beta.threads.messages.create(thread.id, { role: "user", content:userMessage });
+  
+    const stream = openai.beta.threads.createAndRun({
+      assistant_id: asistenteID,
+      thread: {
+        messages: [
+          { role: "user", content: "utiliza mi informacion personal para responder  "+JSON.stringify(userInformation)+" :"+userMessage }
+        ]
+      },
+      stream: true
+    });
+let words=''
+    for await (const event of await stream) {
 
-  setHistory([...history, { role: "user", content: userMessage},{role:"assistant",content:res}])
+      if (event.data.object.toString() === 'thread.message.delta') {
+        console.log("length "+JSON.stringify(event.data.delta.content[0].text.value) ) 
+        words=words+event.data.delta.content[0].text.value
+
+        await setTextIA(words)
+console.log("textIA "+textIA)
+
+
+}
+
+
+    }
 /* 
     const response = await fetchWithRetries('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -137,7 +178,8 @@ const userInformation = {
       throw new Error(`OpenAI API request failed with status ${response.status}`);
     } *//* 
     const data = await response.json(); */
-    return respuesta
+
+    return words
   }catch (e){
     console.log(e)
   }
@@ -194,6 +236,7 @@ const genders = [
 
 const isTabletOrMobile = useMediaQuery({ query: '(max-width: 600px)' })
 const [connected,setConnected]=useState(false)
+
   useEffect(()=>{
     
      talkVideo = document.getElementById('talk-video');
@@ -267,7 +310,6 @@ const [connected,setConnected]=useState(false)
 
       const responseFromOpenAI = await fetchOpenAIResponse(userInput);
 
-      setHistory([...history, {role:"user",content:userInput},{role:"assistant",content:responseFromOpenAI}])
 
       //
       // Print the openAIResponse to the console
@@ -325,19 +367,6 @@ const [connected,setConnected]=useState(false)
       console.log("talkResponse "+JSON.stringify(talkResponse))
     }
   };
-  /* destroyButton.onclick = async () => {
-    await fetch(`${DID_API.url}/talks/streams/${streamId}`, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Basic ${DID_API.key}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ session_id: sessionId }),
-    });
-  
-    stopAllStreams();
-    closePC();
-  }; */
   
   },[])
   
@@ -834,27 +863,26 @@ const typesValues = [
           <MessageList style={{ 
             justifyContent:'center',
             alignItems:'center',flex:0.9, }}>
-            {history.map((message, index) => (
-              index != 0?
+             
               <Stack style={{
                 justifyContent:'center',
-                alignItems:'center', marginTop:10,flexDirection:"row"}} key={index}>
+                alignItems:'center', marginTop:10,flexDirection:"row"}} key={1}>
                
 
                 <Message
-                  key={index}
+                  key={1}
                   name="userResponse"
                   style={{marginRight:20}}
                   model={{
                     sentTime: "just now",
-                    message: message.role + ": " + message.content,
-                    sender: message.role,
+                    message: "IA" + ": " + textIA,
+                    sender: "IA",
                   }}
                 />
 
     
-              </Stack>:null
-            ))}
+              </Stack>
+  
           </MessageList>
       {iniciando ? null : 
       <div as={MessageInput} className="fixed bottom-0 pb-safe w-full" style={{

@@ -55,6 +55,7 @@
     "fs": "^0.0.1-security",
     "install": "^0.13.0",
     "jotai": "^2.4.3",
+    "lodash": "^4.17.21",
     "magic-sdk": "^18.4.1",
     "material-table": "^2.0.5",
     "moralis-v1": "^1.13.0",
