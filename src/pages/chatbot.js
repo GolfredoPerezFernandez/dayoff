@@ -97,8 +97,11 @@ const userInformation = {
   province: user.get('province'),
   gender: user.get('gender'),
   contractInit: user.get('contractInit'),
+  salary: user.get('salary'),
+
+  contractInit: user.get('contractEnd'),
   contractType: user.get('contractType'),
-  extraPayments: user.get('extraPayments'),
+  salarioBruto: user.get('salaryBrute'),
   cotization:  user.get('cotization'),
   syndicate: user.get('syndicate'),
   weeklyHours: user.get('weeklyHours'),
@@ -107,7 +110,6 @@ const userInformation = {
   job: user.get('job'),
 
  };
- console.log("values.expert "+JSON.stringify(values.expert))
 /*     let res=await Moralis.Cloud.run(
       "assistanceChatStream",
       { history:history, expert:values.expert,userResponse:"utiliza mi informacion personal para responder  "+JSON.stringify(userInformation)+" :"+userMessage}
@@ -148,15 +150,9 @@ let words=''
     for await (const event of await stream) {
 
       if (event.data.object.toString() === 'thread.message.delta') {
-        console.log("length "+JSON.stringify(event.data.delta.content[0].text.value) ) 
         words=words+event.data.delta.content[0].text.value
-
         await setTextIA(words)
-console.log("textIA "+textIA)
-
-
 }
-
 
     }
 /* 

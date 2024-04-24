@@ -50,7 +50,7 @@ const ContractDetails = () => {
     user.set("contractInit",dateInit.toString())
     user.set("jobDescription",values.jobDescription)
     user.set("weeklyHours",values.weeklyHours)
-    user.set("extraPayments",values.extraPayments)
+    user.set("salaryBrute",values.salaryBrute)
     user.set("contractType",values.contractType)
     user.set("jornada",values.jornada)    
     user.set("salary",values.salary)
@@ -166,10 +166,11 @@ const ContractDetails = () => {
          ...prevState,
          ["contractType"]: user.get("contractType")
        })); 
+       
        setValues((prevState) => ({
-         ...prevState,
-         ["extraPayments"]: user.get("extraPayments")
-       })); 
+        ...prevState,
+        ["salaryBrute"]: user.get("salaryBrute")
+      })); 
        setValues((prevState) => ({
          ...prevState,
          ["jobTest"]: user.get("jobTest")
@@ -250,6 +251,13 @@ const ContractDetails = () => {
                     label="Fecha de inicio del contrato"
                     value={dateInit}
                     onChange={(newValue) => setDateInit(newValue)}
+                  />{" "}
+                </LocalizationProvider>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DateTimePicker
+                    label="Fecha de finalizacion del contrato"
+                    value={dateEnd}
+                    onChange={(newValue) => setDateEnd(newValue)}
                   />{" "}
                 </LocalizationProvider>
 
@@ -359,7 +367,7 @@ const ContractDetails = () => {
        
        <TextField
                   fullWidth
-                  label="Salario o Nómina"
+                  label="Salario Neto"
                   name="salary"
                   multiline={true}
                   onChange={handleChange}
@@ -375,8 +383,8 @@ const ContractDetails = () => {
                 />
                      <TextField
                   fullWidth
-                  label="Pagas extras"
-                  name="extraPayments"
+                  label="Salario Bruto"
+                  name="salaryBrute"
                   multiline={true}
                   onChange={handleChange}
                   required
@@ -387,7 +395,7 @@ const ContractDetails = () => {
                     marginBottom:10,
                   
                   }}
-                  value={values.extraPayments}
+                  value={values.salaryBrute}
                 /> 
                  <TextField
                 fullWidth
