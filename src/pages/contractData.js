@@ -99,26 +99,16 @@ init()
   },[])
 
   const typesValues2 = [
-    { label: 'Andalucía', value: 'Andalucía' },
     { label: 'Aragón', value: 'Aragón' },
-    { label: 'Principado de Asturias', value: 'Principado de Asturias' },
-    { label: 'Islas Baleares', value: 'Islas Baleares' },
-    { label: 'Canarias', value: 'Canarias' },
-    { label: 'Cantabria', value: 'Cantabria' },
-    { label: 'Castilla y León', value: 'Castilla y León' },
-    { label: 'Castilla-La Mancha', value: 'Castilla-La Mancha' },
-    { label: 'Cataluña', value: 'Cataluña' },
     { label: 'Extremadura', value: 'Extremadura' },
-    { label: 'Galicia', value: 'Galicia' },
     { label: 'Comunidad de Madrid', value: 'Comunidad de Madrid' },
-    { label: 'Región de Murcia', value: 'Región de Murcia' },
-    { label: 'Comunidad Foral de Navarra', value: 'Comunidad Foral de Navarra' },
-    { label: 'País Vasco', value: 'País Vasco' },
     { label: 'La Rioja', value: 'La Rioja' },
+    { label: 'Canarias', value: 'Canarias' },
     { label: 'Comunidad Valenciana', value: 'Comunidad Valenciana' },
-    { label: 'Ciudad Autónoma de Ceuta', value: 'Ciudad Autónoma de Ceuta' },
-    { label: 'Ciudad Autónoma de Melilla', value: 'Ciudad Autónoma de Melilla' }
-  ];
+    { label: 'Islas Baleares', value: 'Islas Baleares' },
+    { label: 'Cantabria', value: 'Cantabria' },
+    { label: 'Castilla La Mancha', value: 'Castilla La Mancha' }
+];
 
   const typesValues = [
     { label: 'Masculino', value: 'masculino' },    

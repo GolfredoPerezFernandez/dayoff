@@ -104,7 +104,7 @@ const ContractDetails = () => {
     { label: 'Industria alimentaria', value: 'Industria alimentaria' },
     { label: 'Grandes almacenes', value: 'Grandes almacenes' },
     { label: 'Comercio', value: 'Comercio' },
-    { label: 'Construcción e industrias extractivas', value: 'Construcción e industrias extractivas' },
+    { label: 'Construcción ', value: 'Construcción' },
     { label: 'Actividades físico-deportivas', value: 'Actividades físico-deportivas' },
     { label: 'Educación', value: 'Educación' },
     { label: 'Energía y agua', value: 'Energía y agua' },

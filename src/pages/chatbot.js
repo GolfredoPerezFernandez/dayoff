@@ -15,7 +15,7 @@ import OpenAI from 'openai';
 import dynamic from "next/dynamic";
 import DID_API from './api.json' assert { type: 'json' };
 import { SayButton } from 'react-say';
-import { useEffect, useCallback, useState } from 'react';
+import { useEffect, useCallback, useState, useRef } from 'react';
 const Vocal = dynamic(
   () => import("@untemps/react-vocal"),
   {
@@ -78,10 +78,36 @@ useEffect(()=>{
         reject(error);
       };
     });
-  };;
+  };
+  const [newfileId,setFileID]=useState()
+
 const [textIA,setTextIA]=useState("Haz cualquier consulta que quieras")
   // Load the OpenAI API from file new 10/23 
   // OpenAI API endpoint set up new 10/23 
+
+const uploadFile = async (buffer, type, purpose) => {
+  try {
+      const blob = new Blob([buffer], { type: type });
+      const formData = new FormData();
+      formData.append('file', blob);
+      formData.append('purpose', purpose);
+
+      const response = await fetch('https://api.openai.com/v1/files', {
+          method: 'POST',
+          headers: {
+              'Authorization': `Bearer ${process.env.NEXT_PUBLIC_CHATGPT}`
+          },
+          body: formData
+      });
+      const result = await response.json();
+      return result.id;
+  } catch (error) {
+      console.error('Error uploading file:', error);
+      return null;
+  }
+};
+
+  
   async function fetchOpenAIResponse(userMessage) {
   try{
     setValues({userResponse:""})
@@ -98,6 +124,7 @@ const userInformation = {
   gender: user.get('gender'),
   contractInit: user.get('contractInit'),
   salary: user.get('salary'),
+  community: user.get('community'),
 
   contractInit: user.get('contractEnd'),
   contractType: user.get('contractType'),
@@ -105,7 +132,6 @@ const userInformation = {
   cotization:  user.get('cotization'),
   syndicate: user.get('syndicate'),
   weeklyHours: user.get('weeklyHours'),
-   ary: user.get('salary'),
   jobinTesting: user.get('jobTest'),
   job: user.get('job'),
 
@@ -132,17 +158,71 @@ const userInformation = {
       "suspensionesDespidos": "asst_UVEVnc4duCVpoGq0pp3V2kG7",
       "representacionTrabajadores": "asst_8pQq8XTbKv7LURqXqmvCFEDB"
     };
-  
-    const asistenteID = assistantIds[values.expert] || assistantIds["seguridadSocial"];
-    const thread = await openai.beta.threads.create();
-    await openai.beta.threads.messages.create(thread.id, { role: "user", content:userMessage });
-  
+    let threadId=""
+    let asistenteID = assistantIds[values.expert] || assistantIds["seguridadSocial"];
+    if(values.expert==="convenios"){
+      if(user.get('community')=="Aragón"){
+        asistenteID="asst_SzWrRCaCC7woGYrWLhtbReAL"
+      }
+      if(user.get('community')=="Extremadura"){
+        asistenteID="asst_DoBIPo3N64BoPC63Ms6TNaU2"
+      }
+      if(user.get('community')=="Comunidad de Madrid"){
+        asistenteID="asst_KuxbJbUWqxcjTF4sPhDzPN6q"
+      }
+
+      if(user.get('community')=="La Rioja"){
+        asistenteID="asst_EM9Cc720BWO7jAXCuwUqLC7X"
+      }
+      
+
+      if(user.get('community')=="Canarias"){
+        asistenteID="asst_EM9Cc720BWO7jAXCuwUqLC7X"
+      }
+
+      if(user.get('community')=="Comunidad Valenciana"){
+        asistenteID="asst_EM9Cc720BWO7jAXCuwUqLC7X"
+      }
+      
+      if(user.get('community')=="Islas Baleares"){
+        asistenteID="asst_EM9Cc720BWO7jAXCuwUqLC7X"
+      }
+      if(user.get('community')=="Cantabria"){
+        asistenteID="asst_EM9Cc720BWO7jAXCuwUqLC7X"
+      }
+
+      if(user.get('community')=="Castilla La Mancha"){
+        asistenteID="asst_EM9Cc720BWO7jAXCuwUqLC7X"
+      }
+    }
+    if(!user.get("chatThread")){
+      const thread = await openai.beta.threads.create();
+user.set("chatThread",thread.id)
+threadId=thread.id
+console.log("threadId "+threadId)
+
+    } else {
+      threadId=user.get("chatThread")
+console.log("threadId "+threadId)
+    }
+   
+    console.log("newfileId "+newfileId )
+    await openai.beta.threads.messages.create(threadId, { role: "user", content:userMessage    });
+  console.log("asistenteID "+asistenteID)
+  let mensajes=[]
+  if(newfileId!==""||newfileId){
+mensajes= [
+  { role: "user", file_ids:[newfileId],content: "utiliza mi informacion personal para responder  "+JSON.stringify(userInformation)+" :"+userMessage }
+]
+  }else{
+    mensajes= [
+      { role: "user", content: "utiliza mi informacion personal para responder  "+JSON.stringify(userInformation)+" :"+userMessage  }
+    ]
+  }
     const stream = openai.beta.threads.createAndRun({
       assistant_id: asistenteID,
       thread: {
-        messages: [
-          { role: "user", content: "utiliza mi informacion personal para responder  "+JSON.stringify(userInformation)+" :"+userMessage }
-        ]
+        messages:mensajes
       },
       stream: true
     });
@@ -155,6 +235,7 @@ let words=''
 }
 
     }
+    setFileID("")
     return words
   }catch (e){
     console.log(e)
@@ -285,7 +366,7 @@ const [connected,setConnected]=useState(false)
       document.getElementById('user-input-field').value = '';
 
       const responseFromOpenAI = await fetchOpenAIResponse(userInput);
-
+setFileID("")
 
       //
       // Print the openAIResponse to the console
@@ -488,7 +569,30 @@ connectionInit()
       });
     }, 500);
   }
-  
+  const fileInputRef = useRef(null);
+
+  const handleButtonClick = () => {
+    // Simular un clic en el input real de tipo file
+    fileInputRef.current.click();
+  };
+
+  const handleFileUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async () => {
+        const buffer = reader.result;
+        const fileId = await uploadFile(buffer, file.type, 'assistants');
+        console.log('Uploaded file ID:', fileId);
+        setFileID(fileId);
+    };
+    reader.onerror = (error) => {
+        console.log('Error reading file:', error);
+    };
+    reader.readAsArrayBuffer(file);
+  };
+
   async function createPeerConnection(offer, iceServers) {
     if (!peerConnection) {
       peerConnection = new RTCPeerConnection({ iceServers });
@@ -872,13 +976,28 @@ const typesValues = [
         paddingRight: 10,
         paddingLeft: 10,
       }}>
-        
+              
         <input  onKeyUp={handleKeyUp} type="text" id="user-input-field" placeholder="Pregunta cualquier duda" />
+       
         <div tabIndex="0">
           {isLoading ? <CircularProgress style={{ marginLeft: 10 }} /> :
             <button style={{ marginLeft: 10 }} disabled={!connected} onClick={startTalk} id="talk-button" type="button">Send</button>
           } 
+         
         </div>
+        <div>
+      <button className={"w-15 h-15 "} onClick={handleButtonClick}> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 7.5h-.75A2.25 2.25 0 0 0 4.5 9.75v7.5a2.25 2.25 0 0 0 2.25 2.25h7.5a2.25 2.25 0 0 0 2.25-2.25v-7.5a2.25 2.25 0 0 0-2.25-2.25h-.75m0-3-3-3m0 0-3 3m3-3v11.25m6-2.25h.75a2.25 2.25 0 0 1 2.25 2.25v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5a2.25 2.25 0 0 1-2.25-2.25v-.75" />
+</svg>
+</button>
+      
+      <input
+        type="file"
+        style={{ display: 'none' }}
+        onChange={handleFileUpload}
+        ref={fileInputRef}
+      />
+    </div>
       </div>
       }
     </ChatContainer>
