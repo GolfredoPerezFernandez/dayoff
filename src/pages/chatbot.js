@@ -160,39 +160,50 @@ const userInformation = {
     };
     let threadId=""
     let asistenteID = assistantIds[values.expert] || assistantIds["seguridadSocial"];
+    console.log("values.expert",values.expert)
+
     if(values.expert==="convenios"){
+
+
       if(user.get('community')=="Aragón"){
+        console.log("Aragón")
+
         asistenteID="asst_SzWrRCaCC7woGYrWLhtbReAL"
       }
       if(user.get('community')=="Extremadura"){
+        console.log("Extremadura")
+
         asistenteID="asst_DoBIPo3N64BoPC63Ms6TNaU2"
       }
       if(user.get('community')=="Comunidad de Madrid"){
-        asistenteID="asst_KuxbJbUWqxcjTF4sPhDzPN6q"
+        asistenteID="asst_RHpDTvU7VbdfGdS2papFOKcG"
       }
 
       if(user.get('community')=="La Rioja"){
-        asistenteID="asst_EM9Cc720BWO7jAXCuwUqLC7X"
+        asistenteID="asst_KuxbJbUWqxcjTF4sPhDzPN6q"
       }
       
 
       if(user.get('community')=="Canarias"){
-        asistenteID="asst_EM9Cc720BWO7jAXCuwUqLC7X"
+        asistenteID="asst_HCUtCsXW37AAQ8vRkbRhD19t"
       }
 
       if(user.get('community')=="Comunidad Valenciana"){
-        asistenteID="asst_EM9Cc720BWO7jAXCuwUqLC7X"
+        asistenteID="asst_N8BECCEhAp9YncXlliJYt0f2"
       }
       
       if(user.get('community')=="Islas Baleares"){
-        asistenteID="asst_EM9Cc720BWO7jAXCuwUqLC7X"
+        asistenteID="asst_RP1Zz7s98rO2u9zqfRWZTelF"
       }
       if(user.get('community')=="Cantabria"){
-        asistenteID="asst_EM9Cc720BWO7jAXCuwUqLC7X"
+        console.log("Cantabria")
+
+        asistenteID="asst_rQd9DNKGALLebwS4h6BOdURh"
       }
 
       if(user.get('community')=="Castilla La Mancha"){
-        asistenteID="asst_EM9Cc720BWO7jAXCuwUqLC7X"
+        console.log("Castilla La Mancha")
+        asistenteID="asst_IXwMcQ9MWCgDhWxdeVOlMmg7"
       }
     }
     if(!user.get("chatThread")){
@@ -206,15 +217,17 @@ console.log("threadId "+threadId)
 console.log("threadId "+threadId)
     }
    
-    console.log("newfileId "+newfileId )
     await openai.beta.threads.messages.create(threadId, { role: "user", content:userMessage    });
   console.log("asistenteID "+asistenteID)
   let mensajes=[]
-  if(newfileId!==""||newfileId){
+  if(newfileId!==""&&newfileId){
+    console.log("entrooo")
 mensajes= [
   { role: "user", file_ids:[newfileId],content: "utiliza mi informacion personal para responder  "+JSON.stringify(userInformation)+" :"+userMessage }
 ]
   }else{
+    console.log("no entrooo")
+
     mensajes= [
       { role: "user", content: "utiliza mi informacion personal para responder  "+JSON.stringify(userInformation)+" :"+userMessage  }
     ]
