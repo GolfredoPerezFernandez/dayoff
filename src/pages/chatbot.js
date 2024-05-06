@@ -160,42 +160,54 @@ const userInformation = {
     };
     let threadId=""
     let asistenteID = assistantIds[values.expert] || assistantIds["seguridadSocial"];
-    console.log("values.expert",values.expert)
-
+  let  vectorId="vs_ESSFTv5fLrkhlceR9srzKVI3"
     if(values.expert==="convenios"){
 
 
       if(user.get('community')=="Aragón"){
         console.log("Aragón")
-
+        vectorId="asst_SzWrRCaCC7woGYrWLhtbReAL"
         asistenteID="asst_SzWrRCaCC7woGYrWLhtbReAL"
       }
       if(user.get('community')=="Extremadura"){
         console.log("Extremadura")
+        vectorId="vs_ESSFTv5fLrkhlceR9srzKVI3"
 
         asistenteID="asst_DoBIPo3N64BoPC63Ms6TNaU2"
       }
       if(user.get('community')=="Comunidad de Madrid"){
+        vectorId="asst_RHpDTvU7VbdfGdS2papFOKcG"
+
         asistenteID="asst_RHpDTvU7VbdfGdS2papFOKcG"
       }
 
       if(user.get('community')=="La Rioja"){
+        vectorId="vs_qrUs690uDfjvCUobt7sq2ebg"
+
         asistenteID="asst_KuxbJbUWqxcjTF4sPhDzPN6q"
       }
       
 
       if(user.get('community')=="Canarias"){
+        vectorId="vs_epziJroUC8KeP2KAR7DglcP0"
+
         asistenteID="asst_HCUtCsXW37AAQ8vRkbRhD19t"
       }
 
       if(user.get('community')=="Comunidad Valenciana"){
+        vectorId="vs_UdX9eRcu7ugzZMzMBqICDUfR"
+
         asistenteID="asst_N8BECCEhAp9YncXlliJYt0f2"
       }
       
       if(user.get('community')=="Islas Baleares"){
+        vectorId="vs_ODXtxEZ5A3hOxpuQRjTnt0po"
+
         asistenteID="asst_RP1Zz7s98rO2u9zqfRWZTelF"
       }
       if(user.get('community')=="Cantabria"){
+        vectorId="vs_mIjY5Z4U6jBE5V1k9t9Q9mBR"
+
         console.log("Cantabria")
 
         asistenteID="asst_rQd9DNKGALLebwS4h6BOdURh"
@@ -203,6 +215,8 @@ const userInformation = {
 
       if(user.get('community')=="Castilla La Mancha"){
         console.log("Castilla La Mancha")
+        vectorId="vs_VgQFQ2ioUtLcpuy7h5ZfUI3Q"
+
         asistenteID="asst_IXwMcQ9MWCgDhWxdeVOlMmg7"
       }
     }
@@ -216,24 +230,29 @@ console.log("threadId "+threadId)
       threadId=user.get("chatThread")
 console.log("threadId "+threadId)
     }
-   
-    await openai.beta.threads.messages.create(threadId, { role: "user", content:userMessage    });
+
   console.log("asistenteID "+asistenteID)
   let mensajes=[]
   if(newfileId!==""&&newfileId){
-    console.log("entrooo")
+    console.log("entrooo "+JSON.stringify(userInformation))
 mensajes= [
-  { role: "user", file_ids:[newfileId],content: "utiliza mi informacion personal para responder  "+JSON.stringify(userInformation)+" :"+userMessage }
+  { role: "user", file_ids:[newfileId],content: `utiliza mi informacion personal y el archivo ${newfileId} para responder pero primero revisa todos tus archivos de busqueda`+JSON.stringify(userInformation)+" :"+userMessage }
 ]
   }else{
-    console.log("no entrooo")
+    console.log("no entrooo "+JSON.stringify(userInformation))
 
     mensajes= [
-      { role: "user", content: "utiliza mi informacion personal para responder  "+JSON.stringify(userInformation)+" :"+userMessage  }
+      { role: "user", content: "Esta es mi informacion personal  pero primero revisa todos tus archivos de busqueda`"+JSON.stringify(userInformation)+" :"+userMessage  }
     ]
   }
     const stream = openai.beta.threads.createAndRun({
       assistant_id: asistenteID,
+      tools: [{ type: "file_search" }],
+      tool_resources: {
+        "file_search": {
+          "vector_store_ids": [vectorId]
+        }
+      },
       thread: {
         messages:mensajes
       },
