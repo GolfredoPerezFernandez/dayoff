@@ -214,12 +214,63 @@ const userInformation = {
       }
 
       if(user.get('community')=="Castilla La Mancha"){
-        console.log("Castilla La Mancha")
         vectorId="vs_VgQFQ2ioUtLcpuy7h5ZfUI3Q"
 
         asistenteID="asst_IXwMcQ9MWCgDhWxdeVOlMmg7"
       }
+    } 
+    
+    if(values.expert==="trabajoAutonomo"){
+
+      vectorId="vs_bfn5BPbZsjQmgYr78dFpWvsN"
     }
+    
+    if(values.expert==="jubilacion"){
+      vectorId="vs_soUZs7LFLGvw6oAenRb0TDl6"
+
+
+    }
+    
+    
+    if(values.expert==="salarios"){
+      vectorId="vs_CTpUPbfX1Yuvi0thhHZfCTA8"
+
+
+    }
+    
+    if(values.expert==="seguridadSocial"){
+      
+      vectorId="vs_TQeu6hIstinF3w4psLHphnFB"
+
+    }
+    if(values.expert==="deberesDerechos"){
+      vectorId="vs_cYMswpq0Yqqu7qxqC2URl6X3"
+
+      
+    }
+
+    if(values.expert==="suspensionesDespidos"){
+      vectorId="vs_QSAtU7Nrw3Ol8tqxayRX5WkY"
+
+
+    }
+    if(values.expert==="representacionTrabajadores"){
+      
+      vectorId="vs_kp1s10I1RhDOhPwPvGV6RMu2"
+
+    }
+    
+    if(values.expert==="derechoTributario"){
+
+      vectorId="vs_eZoHrlSED9Mdfp7eE4HP9xRt"
+
+    }
+    if(values.expert==="constitucionEspanola"){
+      
+      vectorId="vs_eZoHrlSED9Mdfp7eE4HP9xRt"
+
+    }
+
     if(!user.get("chatThread")){
       const thread = await openai.beta.threads.create();
 user.set("chatThread",thread.id)
@@ -236,13 +287,13 @@ console.log("threadId "+threadId)
   if(newfileId!==""&&newfileId){
     console.log("entrooo "+JSON.stringify(userInformation))
 mensajes= [
-  { role: "user", file_ids:[newfileId],content: `utiliza mi informacion personal y el archivo ${newfileId} para responder pero primero revisa todos tus archivos de busqueda`+JSON.stringify(userInformation)+" :"+userMessage }
+  { role: "user", file_ids:[newfileId],content: `utiliza mi informacion personal ${JSON.stringify(userInformation)} y el archivo ${newfileId} para responder pero primero revisa bien este archivo`+" :"+userMessage }
 ]
   }else{
     console.log("no entrooo "+JSON.stringify(userInformation))
 
     mensajes= [
-      { role: "user", content: "Esta es mi informacion personal  pero primero revisa todos tus archivos de busqueda`"+JSON.stringify(userInformation)+" :"+userMessage  }
+      { role: "user", content: "Esta es mi informacion personal `"+JSON.stringify(userInformation)+" :"+userMessage  }
     ]
   }
     const stream = openai.beta.threads.createAndRun({
