@@ -51,10 +51,11 @@ useEffect(()=>{
         let user= Moralis.User.current()
         user.set('chatbotLang',event.target.value)
       }
-      setValues((prevState) => ({
+     await setValues((prevState) => ({
         ...prevState,
         [event.target.name]: event.target.value
       }));
+      console.log(values.expert)
     });
   const [history, setHistory] = useState([
     {role: "user", content: ``},
@@ -126,7 +127,7 @@ const userInformation = {
   salary: user.get('salary'),
   community: user.get('community'),
 
-  contractInit: user.get('contractEnd'),
+  contractEnd: user.get('contractEnd'),
   contractType: user.get('contractType'),
   salarioBruto: user.get('salaryBrute'),
   cotization:  user.get('cotization'),
@@ -262,11 +263,10 @@ const userInformation = {
     
     if(values.expert==="derechoTributario"){
 
-      vectorId="vs_eZoHrlSED9Mdfp7eE4HP9xRt"
+      vectorId="vs_M2VhM0PTE2BtXeOhwdAiZDuU"
 
     }
     if(values.expert==="constitucionEspanola"){
-      
       vectorId="vs_eZoHrlSED9Mdfp7eE4HP9xRt"
 
     }
@@ -285,17 +285,21 @@ console.log("threadId "+threadId)
   console.log("asistenteID "+asistenteID)
   let mensajes=[]
   if(newfileId!==""&&newfileId){
-    console.log("entrooo "+JSON.stringify(userInformation))
 mensajes= [
   { role: "user", file_ids:[newfileId],content: `utiliza mi informacion personal ${JSON.stringify(userInformation)} y el archivo ${newfileId} para responder pero primero revisa bien este archivo`+" :"+userMessage }
 ]
   }else{
-    console.log("no entrooo "+JSON.stringify(userInformation))
 
     mensajes= [
-      { role: "user", content: "Esta es mi informacion personal `"+JSON.stringify(userInformation)+" :"+userMessage  }
+      { role: "user", content: "utiliza mi informacion personal `"+JSON.stringify(userInformation)+" :"+userMessage  }
     ]
   }
+  
+  console.log("entrooo "+JSON.stringify(userInformation))
+  console.log(values.expert)
+
+  console.log(vectorId)
+
     const stream = openai.beta.threads.createAndRun({
       assistant_id: asistenteID,
       tools: [{ type: "file_search" }],
