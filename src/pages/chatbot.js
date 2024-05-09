@@ -281,12 +281,15 @@ console.log("threadId "+threadId)
       threadId=user.get("chatThread")
 console.log("threadId "+threadId)
     }
+    console.log("newfileId "+newfileId)
 
   console.log("asistenteID "+asistenteID)
   let mensajes=[]
   if(newfileId!==""&&newfileId){
+  
 mensajes= [
-  { role: "user", file_ids:[newfileId],content: `utiliza mi informacion personal ${JSON.stringify(userInformation)} y el archivo ${newfileId} para responder pero primero revisa bien este archivo`+" :"+userMessage }
+  { role: "user",      
+  content: ` revisa bien el storage este archivo  antes de responder ${newfileId}`+" y mi pregunta es:"+userMessage }
 ]
   }else{
 
@@ -295,19 +298,21 @@ mensajes= [
     ]
   }
   
-  console.log("entrooo "+JSON.stringify(userInformation))
+  console.log("entrooo "+JSON.stringify(mensajes))
   console.log(values.expert)
 
   console.log(vectorId)
-
     const stream = openai.beta.threads.createAndRun({
       assistant_id: asistenteID,
-      tools: [{ type: "file_search" }],
-      tool_resources: {
-        "file_search": {
-          "vector_store_ids": [vectorId]
-        }
-      },
+      model: "gpt-4-turbo",
+      instructions: `Eres un asistente virtual especializado en derecho laboral en España, con acceso completo al Estatuto de los Trabajadores y a todos los convenios colectivos sectoriales pertinentes. Debes utilizar esta documentación para responder de forma detallada y completa a todas las consultas, evitando sugerir al usuario que realice búsquedas adicionales o consulte documentos por su cuenta.
+
+      Al enfrentarte a preguntas complejas, como complementos salariales por antigüedad, peligrosidad o condiciones específicas de trabajo en el sector de la construcción en Barcelona, revisa las cláusulas relevantes del convenio colectivo aplicable y proporciona una explicación clara, basada en los textos legales que tienes disponibles.
+      
+      Evita el uso de asteriscos o caracteres especiales entre palabras, así como recomendaciones externas como sugerir que el usuario confirme cálculos con el departamento de recursos humanos o consulte con un experto legal. Además, ofrece respuestas libres de terminología complicada, símbolos matemáticos complejos o citas. Realiza cálculos internos y presenta el resultado sin fórmulas o símbolos, utilizando palabras sencillas como “multiplicar” o “dividir”.
+      
+      Si un usuario proporciona el ID de un archivo, busca el contenido correspondiente en el sistema de almacenamiento para obtener la información necesaria y ofrecer una solución cerrada y definitiva.`,
+
       thread: {
         messages:mensajes
       },
@@ -664,6 +669,8 @@ connectionInit()
   };
 
   const handleFileUpload = async (event) => {
+    setLoading(true)
+
     const file = event.target.files[0];
     if (!file) return;
 
@@ -672,9 +679,13 @@ connectionInit()
         const buffer = reader.result;
         const fileId = await uploadFile(buffer, file.type, 'assistants');
         console.log('Uploaded file ID:', fileId);
-        setFileID(fileId);
+        setLoading(false)
+
+       await setFileID(fileId.toString());
     };
     reader.onerror = (error) => {
+      setLoading(false)
+
         console.log('Error reading file:', error);
     };
     reader.readAsArrayBuffer(file);
@@ -1073,10 +1084,11 @@ const typesValues = [
          
         </div>
         <div>
-      <button className={"w-15 h-15 "} onClick={handleButtonClick}> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+        {!isLoading ?    <button className={"w-15 h-15 "} onClick={handleButtonClick}> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 7.5h-.75A2.25 2.25 0 0 0 4.5 9.75v7.5a2.25 2.25 0 0 0 2.25 2.25h7.5a2.25 2.25 0 0 0 2.25-2.25v-7.5a2.25 2.25 0 0 0-2.25-2.25h-.75m0-3-3-3m0 0-3 3m3-3v11.25m6-2.25h.75a2.25 2.25 0 0 1 2.25 2.25v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5a2.25 2.25 0 0 1-2.25-2.25v-.75" />
 </svg>
-</button>
+</button>: null   } 
+         
       
       <input
         type="file"

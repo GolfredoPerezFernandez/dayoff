@@ -126,6 +126,8 @@ init()
     { label: 'Especialista en calidad', value: 'Especialista en calidad' },
     { label: 'Mantenimiento industrial', value: 'Mantenimiento industrial' },
     { label: 'Albañil', value: 'Albañil' },
+    { label: 'Constructor', value: 'Constructor' },
+
     { label: 'Carpintero', value: 'Carpintero' },
     { label: 'Electricista', value: 'Electricista' },
     { label: 'Fontanero', value: 'Fontanero' },
