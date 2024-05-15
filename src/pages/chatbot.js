@@ -47,6 +47,7 @@ useEffect(()=>{
   let streamId;
   const handleChange = useCallback(
     async (event) => {
+      setLoading(true)
       if(event.target.name=="lenguage"){
         let user= Moralis.User.current()
         user.set('chatbotLang',event.target.value)
@@ -55,6 +56,8 @@ useEffect(()=>{
         ...prevState,
         [event.target.name]: event.target.value
       }));
+      setLoading(false)
+
       console.log(values.expert)
     });
   const [history, setHistory] = useState([
@@ -162,10 +165,25 @@ const userInformation = {
     let threadId=""
     let asistenteID = assistantIds[values.expert] || assistantIds["seguridadSocial"];
   let  vectorId="vs_ESSFTv5fLrkhlceR9srzKVI3"
+  console.log(" community "+user.get('community'))
+  console.log(" community "+values.expert)
+
     if(values.expert==="convenios"){
 
 
       if(user.get('community')=="Aragón"){
+        
+
+    if(!user.get("threadIdConveniosAragon")){
+      const thread = await openai.beta.threads.create();
+user.set("threadIdConveniosAragon",thread.id)
+threadId=thread.id
+console.log("threadIdConveniosAragon "+threadId)
+
+    } else {
+      threadId=user.get("threadIdConveniosAragon")
+console.log("threadId "+threadId)
+    }
         console.log("Aragón")
         vectorId="asst_SzWrRCaCC7woGYrWLhtbReAL"
         asistenteID="asst_SzWrRCaCC7woGYrWLhtbReAL"
@@ -228,8 +246,6 @@ const userInformation = {
     
     if(values.expert==="jubilacion"){
       vectorId="vs_soUZs7LFLGvw6oAenRb0TDl6"
-
-
     }
     
     
@@ -270,21 +286,11 @@ const userInformation = {
       vectorId="vs_eZoHrlSED9Mdfp7eE4HP9xRt"
 
     }
-
-    if(!user.get("chatThread")){
-      const thread = await openai.beta.threads.create();
-user.set("chatThread",thread.id)
-threadId=thread.id
-console.log("threadId "+threadId)
-
-    } else {
-      threadId=user.get("chatThread")
-console.log("threadId "+threadId)
-    }
     console.log("newfileId "+newfileId)
 
   console.log("asistenteID "+asistenteID)
   let mensajes=[]
+  /* 
   if(newfileId!==""&&newfileId){
   
 mensajes= [
@@ -296,12 +302,44 @@ mensajes= [
     mensajes= [
       { role: "user", content: "utiliza mi informacion personal `"+JSON.stringify(userInformation)+" :"+userMessage  }
     ]
-  }
+  } */
   
-  console.log("entrooo "+JSON.stringify(mensajes))
   console.log(values.expert)
+  
+console.log("threadId "+threadId)
+console.log("asistenteID "+asistenteID)
 
-  console.log(vectorId)
+  const message = await openai.beta.threads.messages.create(
+    threadId,
+    {
+      role: "user",
+      content: "I need to solve the equation `3x + 11 = 14`. Can you help me?"
+    }
+  );
+  console.log("entrooo ")
+
+const stream = openai.beta.threads.runs.stream(threadId, {
+  assistant_id: asistenteID
+})
+  .on('textCreated', (text) => console.log("textCreated",text))
+  .on('textDelta', (textDelta, snapshot) => console.log("textDelta",textDelta))
+  .on('toolCallCreated', (toolCall) => console.log("toolCall",toolCall))
+  .on('toolCallDelta', (toolCallDelta, snapshot) => {
+    if (toolCallDelta.type === 'code_interpreter') {
+      if (toolCallDelta.code_interpreter.input) {
+        console.log("toolCallDelta.code_interpreter.input",toolCallDelta.code_interpreter.input)
+      }
+      if (toolCallDelta.code_interpreter.outputs) {
+        process.stdout.write("\noutput >\n");
+        toolCallDelta.code_interpreter.outputs.forEach(output => {
+          if (output.type === "logs") {
+            console.log("logs",`\n${output.logs}\n`)
+          }
+        });
+      }
+    }
+  });
+  /* 
     const stream = openai.beta.threads.createAndRun({
       assistant_id: asistenteID,
       model: "gpt-4-turbo",
@@ -317,7 +355,7 @@ mensajes= [
         messages:mensajes
       },
       stream: true
-    });
+    }); */
 let words=''
     for await (const event of await stream) {
 
@@ -988,7 +1026,6 @@ const typesValues = [
             streaming : <label id="streaming-status-label"></label><br />
             </Box>   </div>
       
-        <script type="module" src="../api/index.js"></script>
         <div style={{ position: "relative", 
           alignSelf:'center',
             justifyContent:'center',flexDirection:"row",height: "70%" }}>

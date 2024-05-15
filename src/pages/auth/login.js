@@ -134,23 +134,23 @@ const Page = () => {
               <Typography variant="h4">
                 Ingresar
               </Typography>
+              <Link
+                  component={NextLink}
+                  href="/auth/register"
+                  underline="hover"
+                  
+                className="mt-8"
+                  color={"black"}
+                  variant="subtitle2"
+                >
               <Typography
                 color="text.secondary"
                 variant="body2"
               >
                 No tienes cuenta?
-                &nbsp;
-                <Link
-                  component={NextLink}
-                  href="/auth/register"
-                  underline="hover"
-                  
-                  color={"black"}
-                  variant="subtitle2"
-                >
-                  Registrarse
-                </Link>
+             
               </Typography>
+                </Link>
             </Stack>
            
             {method === 'email' && (
